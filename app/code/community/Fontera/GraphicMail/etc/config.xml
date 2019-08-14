@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Fontera GraphicMail
+ *
+ * NOTICE OF LICENSE
+ *
+ * Private Proprietary Software (http://fontera.co.za/legal)
+ *
+ * @category   Fontera
+ * @package    Fontera_GraphicMail
+ * @copyright  Copyright (c) 2014 Fontera (http://www.fontera.com)
+ * @license    http://fontera.co.za/legal  Private Proprietary Software
+ * @author     Shaughn Le Grange - Hatlen <support@fontera.com>
+ */
+-->
+<config>
+    <modules>
+        <Fontera_GraphicMail>
+            <version>1.0.2</version>
+        </Fontera_GraphicMail>
+    </modules>
+    <global>
+        <helpers>
+            <fontera_graphicmail>
+                <class>Fontera_GraphicMail_Helper</class>
+            </fontera_graphicmail>
+        </helpers>
+        <blocks>
+            <fontera_graphicmail>
+                <class>Fontera_GraphicMail_Block</class>
+            </fontera_graphicmail>
+        </blocks>
+        <models>
+            <fontera_graphicmail>
+                <class>Fontera_GraphicMail_Model</class>
+                <resourceModel>fontera_graphicmail_resource</resourceModel>
+            </fontera_graphicmail>
+            <fontera_graphicmail_resource>
+                <class>Fontera_GraphicMail_Model_Resource</class>
+                <entities>
+                    <mailinglists>
+                        <table>fontera_graphicmail_mailinglists</table>
+                    </mailinglists>
+                </entities>
+            </fontera_graphicmail_resource>
+            <newsletter>
+                <rewrite>
+                    <subscriber>Fontera_GraphicMail_Rewrite_Mage_Newsletter_Model_Subscriber</subscriber>
+                </rewrite>
+            </newsletter>
+        </models>
+        <resources>
+            <fontera_graphicmail_setup>
+                <setup>
+                    <module>Fontera_GraphicMail</module>
+                </setup>
+            </fontera_graphicmail_setup>
+        </resources>
+        <events>
+            <customer_register_success>
+                <observers>
+                    <fontera_graphicmail_setcustomer>
+                        <type>singleton</type>
+                        <class>fontera_graphicmail/observer</class>
+                        <method>setCustomer</method>
+                    </fontera_graphicmail_setcustomer>
+                </observers>
+            </customer_register_success>
+            <adminhtml_customer_save_after>
+                <observers>
+                    <fontera_graphicmail_setcustomer>
+                        <type>singleton</type>
+                        <class>fontera_graphicmail/observer</class>
+                        <method>setCustomer</method>
+                    </fontera_graphicmail_setcustomer>
+                </observers>
+            </adminhtml_customer_save_after>
+            <controller_action_postdispatch_newsletter_manage_save>
+                <observers>
+                    <fontera_graphicmail_subscribe_newsletter>
+                        <type>singleton</type>
+                        <class>fontera_graphicmail/observer</class>
+                        <method>subscriptionNewsletter</method>
+                    </fontera_graphicmail_subscribe_newsletter>
+                </observers>
+            </controller_action_postdispatch_newsletter_manage_save>
+            <controller_action_postdispatch_customer_address_formPost>
+                <observers>
+                    <fontera_graphicmail_updatecustomer>
+                        <type>singleton</type>
+                        <class>fontera_graphicmail/observer</class>
+                        <method>updateCustomer</method>
+                    </fontera_graphicmail_updatecustomer>
+                </observers>
+            </controller_action_postdispatch_customer_address_formPost>
+        </events>
+    </global> 
+    <frontend>
+        <routers>
+            <newsletter>
+                <args>
+                    <modules>
+                        <fontera_graphicmail before="Mage_Newsletter">Fontera_GraphicMail</fontera_graphicmail>
+                    </modules>
+                </args>
+            </newsletter>
+        </routers>
+    </frontend>
+    <admin>
+        <routers>
+            <graphicmail_admin>
+                <use>admin</use>
+                <args>
+                    <module>Fontera_GraphicMail_Adminhtml</module>
+                    <frontName>graphicmail_admin</frontName>
+                </args>
+            </graphicmail_admin>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <fontera_graphicmail>
+                    <file>fontera_graphicmail.xml</file>
+                </fontera_graphicmail>
+            </updates>
+        </layout>
+    </adminhtml>
+</config> 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Fontera GraphicMail
+ *
+ * NOTICE OF LICENSE
+ *
+ * Private Proprietary Software (http://fontera.co.za/legal)
+ *
+ * @category   Fontera
+ * @package    Fontera_GraphicMail
+ * @copyright  Copyright (c) 2014 Fontera (http://www.fontera.com)
+ * @license    http://fontera.co.za/legal  Private Proprietary Software
+ * @author     Shaughn Le Grange - Hatlen <support@fontera.com>
+ */
+-->
+<layout version="0.1.0">
+    <graphicmail_admin_mailinglists_index>
+        <reference name="content">
+            <block type="fontera_graphicmail/adminhtml_mailinglists" name="graphicmail_mailinglists" />
+        </reference>
+    </graphicmail_admin_mailinglists_index>
+    <graphicmail_admin_mailinglists_datasetmapping>
+        <reference name="content">
+            <block type="fontera_graphicmail/adminhtml_mailinglists_edit_tab_general_datasetMapping" name="fontera_graphicmail_mailinglists_datasetmapping" />
+        </reference>
+    </graphicmail_admin_mailinglists_datasetmapping>
+</layout>

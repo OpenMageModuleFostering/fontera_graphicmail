@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Fontera GraphicMail
+ *
+ * NOTICE OF LICENSE
+ *
+ * Private Proprietary Software (http://fontera.co.za/legal)
+ *
+ * @category   Fontera
+ * @package    Fontera_GraphicMail
+ * @copyright  Copyright (c) 2014 Fontera (http://www.fontera.com)
+ * @license    http://fontera.co.za/legal  Private Proprietary Software
+ * @author     Shaughn Le Grange - Hatlen <support@fontera.com>
+ */
+-->
+<config>
+    <menu>
+        <fontera>
+            <title>Fontera</title>
+            <sort_order>88</sort_order>
+            <children>
+                <graphicmail translate="title" module="fontera_graphicmail">
+                    <title>GraphicMail</title>
+                    <sort_order>1</sort_order>
+                    <children>
+                        <mailinglists translate="title" module="fontera_graphicmail">
+                            <title>Manage Mailing Lists</title>
+                            <sort_order>0</sort_order>
+                            <action>graphicmail_admin/mailinglists</action>
+                        </mailinglists>
+                    </children>
+                </graphicmail>
+            </children>
+        </fontera>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <fontera>
+                        <children>
+                            <graphicmail translate="title" module="fontera_graphicmail">
+                                <title>GraphicMail</title>
+                                <sort_order>1</sort_order>
+                                <children>
+                                    <mailinglists translate="title">
+                                        <title>Manage Mailing Lists</title>
+                                        <sort_order>0</sort_order>
+                                    </mailinglists>
+                                </children>
+                            </graphicmail>
+                        </children>
+                    </fontera>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <graphicmail translate="title" module="fontera_graphicmail">
+                                        <title>GraphicMail</title>
+                                    </graphicmail>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

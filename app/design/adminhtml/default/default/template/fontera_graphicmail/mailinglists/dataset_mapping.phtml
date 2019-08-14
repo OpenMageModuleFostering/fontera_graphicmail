@@ -1,0 +1,126 @@
+<?php
+/**
+ * Fontera GraphicMail
+ *
+ * NOTICE OF LICENSE
+ *
+ * Private Proprietary Software (http://fontera.co.za/legal)
+ *
+ * @category   Fontera
+ * @package    Fontera_GraphicMail
+ * @copyright  Copyright (c) 2014 Fontera (http://www.fontera.com)
+ * @license    http://fontera.co.za/legal  Private Proprietary Software
+ * @author     Shaughn Le Grange - Hatlen <support@fontera.com>
+ */
+?>
+<?php
+/** @var $this Fontera_GraphicMail_Block_Adminhtml_Mailinglists_Edit_Tab_General_DatasetMapping */
+$_htmlId = $this->getElement()->getHtmlId();
+$_htmlClass = $this->getElement()->getClass();
+$_htmlName = $this->getElement()->getName();
+
+$helper = Mage::helper('fontera_graphicmail');
+?>
+<tr>
+    <td class="label"><?php echo $this->getElement()->getLabel(); ?></td>
+    <td colspan="10" class="grid tier">
+    <table cellspacing="0" class="data border" id="dataset_mapping_table" style="width:600px;">
+        <col />
+        <col />
+        <col width="1" />
+        <thead>
+            <tr class="headings">
+                <th><?php echo $helper->__('Magento Field'); ?></th>
+                <th><?php echo $helper->__('GraphicMail Field'); ?></th>
+                <th class="last"><?php echo $helper->__('Action'); ?></th>
+            </tr>
+        </thead>
+        <tbody id="<?php echo $_htmlId; ?>_container"></tbody>
+        <tfoot>
+            <tr>
+                <td style="display: none;"></td>
+                <td colspan="4" class="a-right"><?php echo $this->getAddButtonHtml(); ?></td>
+            </tr>
+        </tfoot>
+    </table>
+    
+<script type="text/javascript">
+//<![CDATA[
+var datasetMappingRowTemplate = '<tr>'
+    + '<td><select class="<?php echo $_htmlClass; ?> required-entry" name="<?php echo $_htmlName; ?>[{{index}}][magento_field]" id="dataset_mapping_row_{{index}}_magento_field">'
+    <?php foreach ($this->getMagentoFields() as $_code => $_label): ?>
+    + '<option value="<?php echo $_code; ?>"><?php echo $this->jsQuoteEscape($this->escapeHtml($_label)); ?></option>'
+    <?php endforeach; ?>
+    + '</select></td>'
+    + '<td><select class="<?php echo $_htmlClass; ?> required-entry" name="<?php echo $_htmlName; ?>[{{index}}][graphicmail_field]" id="dataset_mapping_row_{{index}}_graphicmail_field">'
+    <?php foreach ($this->getGraphicmailFields() as $_code => $_label): ?>
+    + '<option value="<?php echo $_code; ?>"><?php echo $this->jsQuoteEscape($this->escapeHtml($_label)); ?></option>'
+    <?php endforeach; ?>
+    + '</select></td>'
+    + '<td class="last"><input type="hidden" name="<?php echo $_htmlName; ?>[{{index}}][delete]" class="delete" value="" id="dataset_mapping_row_{{index}}_delete" />'
+    + '<button title="<?php echo $helper->__('Delete Mapped Field'); ?>" type="button" class="scalable delete icon-btn delete-product-option" id="dataset_mapping_row_{{index}}_delete_button" onclick="return datasetMappingControl.deleteItem(event);">'
+    + '<span><?php echo $helper->__('Delete'); ?></span></button></td>'
+    + '</tr>';
+
+datasetMappingControl = {
+    template: new Template(datasetMappingRowTemplate, new RegExp('(^|.|\\r|\\n)({{\\s*(\\w+)\\s*}})', '')),
+    itemsCount: 0,
+    addItem : function () {
+        var data = {
+            magento_field: '<?php echo $this->getDefaultMagentoFields(); ?>',
+            graphicmail_field: '<?php echo $this->getDefaultGraphicmailFields(); ?>',
+            index: this.itemsCount++
+        };
+        
+        if(arguments.length >= 2) {
+            data.magento_field = arguments[0];
+            data.graphicmail_field = arguments[1];
+        }
+        
+        Element.insert($('<?php echo $_htmlId; ?>_container'), {
+            bottom : this.template.evaluate(data)
+        });
+        
+        $('dataset_mapping_row_' + data.index + '_magento_field').value = data.magento_field;
+        $('dataset_mapping_row_' + data.index + '_graphicmail_field').value = data.graphicmail_field;
+        
+        $('<?php echo $_htmlId; ?>_container').select('input', 'select').each(function(element) {
+            Event.observe(element, 'change', element.setHasChanges.bind(element));
+        });
+    },
+    disableElement: function(element) {
+        element.disabled = true;
+        element.addClassName('disabled');
+    },
+    deleteItem: function(event) {
+        var tr = Event.findElement(event, 'tr');
+        if (tr) {
+            Element.select(tr, '.delete').each(function(element) {
+                element.value='1';
+            });
+            Element.select(tr, ['input', 'select']).each(function(element) {
+                element.hide();
+            });
+            Element.hide(tr);
+            Element.addClassName(tr, 'no-display template');
+        }
+        return false;
+    }
+};
+
+// Remove existing rows so that we do not have duplicates.
+var rows = $('<?php echo $_htmlId; ?>_container');
+rows.descendants().each(function(elem) {
+    elem.remove();
+    Event.stopObserving(elem);
+});
+
+// Add rows
+<?php foreach ($this->getValues() as $_item): ?>
+    <?php if ((isset($_item['magento_field'])) && (isset($_item['graphicmail_field']))): ?>
+        datasetMappingControl.addItem('<?php echo $_item['magento_field']; ?>', '<?php echo $_item['graphicmail_field']; ?>');
+    <?php endif; ?>
+<?php endforeach; ?>
+//]]>
+</script>
+</td></tr>

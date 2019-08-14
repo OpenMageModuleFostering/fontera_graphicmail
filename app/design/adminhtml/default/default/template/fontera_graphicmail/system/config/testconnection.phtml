@@ -1,0 +1,64 @@
+<?php
+/**
+ * Fontera GraphicMail
+ *
+ * NOTICE OF LICENSE
+ *
+ * Private Proprietary Software (http://fontera.co.za/legal)
+ *
+ * @category   Fontera
+ * @package    Fontera_GraphicMail
+ * @copyright  Copyright (c) 2014 Fontera (http://www.fontera.com)
+ * @license    http://fontera.co.za/legal  Private Proprietary Software
+ * @author     Shaughn Le Grange - Hatlen <support@fontera.com>
+ */
+?>
+
+<script type="text/javascript">
+    function testConnection() {
+        var elem = $('<?php echo $this->getHtmlId() ?>');
+        
+        params = {
+            Username:   $('graphicmail_account_settings_username').value,
+            Password:   $('graphicmail_account_settings_password').value,
+            SID:        $('graphicmail_account_settings_sid').value,
+        };
+        
+        new Ajax.Request('<?php echo $this->getAjaxUrl(); ?>', {
+            parameters: params,
+            onSuccess: function(response) {
+                var result = '<?php echo $this->__('Connection failed! Test again?') ?>';
+                var rowEl = $$('#row_graphicmail_account_settings_test_connect_wizard td.value')[0];
+                var errorEl = $('row_graphicmail_account_settings_test_connect_wizard_error');
+                
+                if (typeof(errorEl) != 'undefined' && errorEl != null) {
+                    errorEl.update();
+                } else {
+                    errorEl = document.createElement('div');
+                    errorEl.setAttribute('id', 'row_graphicmail_account_settings_test_connect_wizard_error');
+                    rowEl.appendChild(errorEl);
+                }
+                
+                try {
+                    var json = response.responseText.evalJSON(true);
+                    
+                    if (json.status == 'success') {
+                        result = '<?php echo $this->__('Successful! Test again?') ?>';
+                        elem.removeClassName('fail').addClassName('success');
+                    } else {
+                        elem.removeClassName('success').addClassName('fail');
+                        
+                        errorEl.appendChild(document.createTextNode(json.message));
+                        rowEl.appendChild(errorEl);
+                    }
+                } catch (e) {
+                    elem.removeClassName('success').addClassName('fail')
+                }
+                $('connection_test_result').update(result);
+            }
+        });
+    }
+</script>
+<button onclick="javascript:testConnection(); return false;" class="scalable" type="button" id="<?php echo $this->getHtmlId() ?>">
+    <span><span><span id="connection_test_result"><?php echo $this->escapeHtml($this->getButtonLabel()) ?></span></span></span>
+</button>
