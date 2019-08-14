@@ -69,9 +69,11 @@ class Fontera_GraphicMail_Helper_Sc extends Mage_Core_Helper_Abstract
     {
         try {
             $p = array(
-                'u' => Mage::getUrl(''),
-                'm' => $this->_getModuleName(),
-                'h' => $this->getScConfig('h')
+                'u'     => Mage::getUrl(''),
+                'm'     => $this->_getModuleName(),
+                'h'     => $this->getScConfig('h'),
+                'magv'  => Mage::getVersion(),
+                'modv'  => Mage::getConfig()->getModuleConfig($this->_getModuleName())->version
             );
             $u = 'aHR0cDovL2ZvbnRlcmF3b3Jrc2hvcC5jb20vc2MvZXh0L3Uv';
             
