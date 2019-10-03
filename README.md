@@ -1,3 +1,5 @@
+
+
 ## Original Package Description
 
 The GraphicMail extension allows you to grow your mailing list through Magento transactions!
