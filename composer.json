@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/Fontera_GraphicMail",
+    "name": "OpenMageModuleFostering\/Fontera_GraphicMail",
     "type": "magento-module",
     "license": "Private-Proprietary-Software",
     "homepage": "",
     "description": "The GraphicMail extension allows you to grow your mailing list through Magento transactions!",
     "authors": [
-    {
-        "name": "Shaughn Le Grange - Hatlen",
-        "email": "shaughn@fontera.com"
-    }
-],
+        {
+            "name": "Shaughn Le Grange - Hatlen",
+            "email": "shaughn@fontera.com"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
